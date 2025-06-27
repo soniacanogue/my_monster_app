@@ -23,6 +23,7 @@ lib/
 ├── services/        # Carga de JSON
 ├── controllers/     # Lógica (próximamente)
 └── main.dart        # Punto de entrada
+```
 
 ## 🛠️ Cómo ejecutar
 
