@@ -1,16 +1,25 @@
-# my_monster_app
+# 💙 My Monster App 🧌✨
 
-A new Flutter project.
+Una aplicación educativa creada con Flutter, donde aprendes conceptos de programación a través de cartas interactivas.  
+¡Estás a punto de jugar, descubrir y crecer junto a tu monstruo interior! 🚀
 
-## Getting Started
+## 🚀 Características
 
-This project is a starting point for a Flutter application.
+- 🧾 Inicio de sesión simple
+- ⏳ Pantalla de carga animada con un monstruo simpático
+- 🎴 Flashcards interactivas:
+  - Tap para voltear
+  - Doble tap para pasar a la siguiente
+  - Estilo personalizado (colores vivos y accesibles)
+- 🗂️ Mazo configurable (próximamente)
+- 📈 Progreso visual (próximamente)
 
-A few resources to get you started if this is your first Flutter project:
+## 📁 Estructura del proyecto
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```bash
+lib/
+├── views/           # Pantallas (login, cargando, flashcards)
+├── models/          # Modelo FlashCard
+├── services/        # Carga de JSON
+├── controllers/     # Lógica (próximamente)
+└── main.dart        # Punto de entrada
