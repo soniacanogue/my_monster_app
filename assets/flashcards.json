@@ -1,0 +1,20 @@
+[
+  {
+    "id": "1",
+    "titulo": "Variable",
+    "definicion": "Espacio en memoria donde se guarda información.",
+    "ejemplo": "int edad = 25;"
+  },
+  {
+    "id": "2",
+    "titulo": "Función",
+    "definicion": "Bloque de código que realiza una tarea.",
+    "ejemplo": "void saludar() { print('Hola'); }"
+  },
+  {
+    "id": "3",
+    "titulo": "Condicional",
+    "definicion": "Permite tomar decisiones en el código.",
+    "ejemplo": "if (edad > 18) { print('Mayor'); }"
+  }
+]
