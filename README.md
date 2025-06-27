@@ -23,3 +23,11 @@ lib/
 ├── services/        # Carga de JSON
 ├── controllers/     # Lógica (próximamente)
 └── main.dart        # Punto de entrada
+
+## 🛠️ Cómo ejecutar
+
+1. Clona este repositorio:
+
+   ```bash
+   git clone https://github.com/soniacanogue/my_monster_app.git
+   cd my_monster_app
