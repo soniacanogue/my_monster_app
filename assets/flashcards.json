@@ -3,85 +3,85 @@
     "id": "1",
     "titulo": "Variable",
     "definicion": "Espacio en memoria donde se guarda información.",
-    "ejemplo": "int edad = 25;"
+    "ejemplo en JavaScript": "let edad = 25;"
   },
   {
     "id": "2",
     "titulo": "Función",
     "definicion": "Bloque de código que realiza una tarea.",
-    "ejemplo": "void saludar() { print('Hola'); }"
+    "ejemplo en JavaScript": "function saludar() {\n  console.log('Hola');\n}"
   },
   {
     "id": "3",
     "titulo": "Condicional",
     "definicion": "Permite tomar decisiones en el código.",
-    "ejemplo": "if (edad > 18) { print('Mayor'); }"
+    "ejemplo en JavaScript": "if (edad > 18) {\n  console.log('Mayor');\n}"
   },
   {
     "id": "4",
     "titulo": "Bucle",
     "definicion": "Estructura que repite un bloque de código.",
-    "ejemplo": "for (int i = 0; i < 5; i++) { print(i); }"
+    "ejemplo en JavaScript": "for (let i = 0; i < 5; i++) {\n  console.log(i);\n}"
   },
   {
     "id": "5",
     "titulo": "Array",
     "definicion": "Colección de elementos del mismo tipo.",
-    "ejemplo": "int[] numeros = {1, 2, 3};"
+    "ejemplo en JavaScript": "let numeros = [1, 2, 3];"
   },
   {
     "id": "6",
     "titulo": "Clase",
     "definicion": "Plantilla para crear objetos con atributos y métodos.",
-    "ejemplo": "class Persona { String nombre; }"
+    "ejemplo en JavaScript": "class Persona {\n  constructor(nombre) {\n    this.nombre = nombre;\n  }\n}"
   },
   {
     "id": "7",
     "titulo": "Objeto",
     "definicion": "Instancia de una clase.",
-    "ejemplo": "Persona p = new Persona();"
+    "ejemplo en JavaScript": "let persona = new Persona('Ana');"
   },
   {
     "id": "8",
     "titulo": "Herencia",
     "definicion": "Permite que una clase herede de otra.",
-    "ejemplo": "class Estudiante extends Persona {}"
+    "ejemplo en JavaScript": "class Estudiante extends Persona {\n  constructor(nombre, curso) {\n    super(nombre);\n    this.curso = curso;\n  }\n}"
   },
   {
     "id": "9",
     "titulo": "Polimorfismo",
     "definicion": "Objetos pueden comportarse de distintas maneras según el contexto.",
-    "ejemplo": "animal.hacerSonido();"
+    "ejemplo en JavaScript": "class Animal {\n  hacerSonido() {\n    console.log('Sonido genérico');\n  }\n}\nclass Perro extends Animal {\n  hacerSonido() {\n    console.log('Guau');\n  }\n}\nlet animal = new Perro();\nanimal.hacerSonido();"
   },
   {
     "id": "10",
     "titulo": "Encapsulamiento",
     "definicion": "Oculta los detalles internos de un objeto.",
-    "ejemplo": "private int edad;"
+    "ejemplo en JavaScript": "class Persona {\n  #edad;\n  constructor(edad) {\n    this.#edad = edad;\n  }\n}"
   },
   {
     "id": "11",
     "titulo": "Recursividad",
     "definicion": "Función que se llama a sí misma.",
-    "ejemplo": "factorial(n) { return n * factorial(n-1); }"
+    "ejemplo en JavaScript": "function factorial(n) {\n  if (n === 0) return 1;\n  return n * factorial(n - 1);\n}"
   },
   {
     "id": "12",
     "titulo": "Puntero",
     "definicion": "Variable que guarda la dirección de memoria de otra variable.",
-    "ejemplo": "int* ptr = &x;"
+    "ejemplo": "No aplica directamente en JavaScript."
   },
   {
     "id": "13",
     "titulo": "Compilador",
     "definicion": "Traduce el código fuente a código máquina.",
-    "ejemplo": "gcc archivo.c"
+    "ejemplo": "No se compila JS tradicionalmente, se interpreta por el navegador."
   },
   {
     "id": "14",
     "titulo": "Interpretador",
     "definicion": "Ejecuta el código línea por línea.",
-    "ejemplo": "python script.py"
+    "ejemplo": "node script.js"
   },
   {
     "id": "15",
@@ -147,25 +147,25 @@
     "id": "25",
     "titulo": "Paradigma imperativo",
     "definicion": "Se enfoca en cómo se hace algo paso a paso.",
-    "ejemplo": "for, if, asignaciones"
+    "ejemplo en JavaScript": "let suma = 0;\nfor (let i = 0; i < 10; i++) {\n  suma += i;\n}"
   },
   {
     "id": "26",
     "titulo": "Paradigma orientado a objetos",
     "definicion": "Modelo basado en objetos que interactúan entre sí.",
-    "ejemplo": "class, objeto, herencia"
+    "ejemplo en JavaScript": "class Animal {\n  constructor(nombre) {\n    this.nombre = nombre;\n  }\n}"
   },
   {
     "id": "27",
     "titulo": "Paradigma funcional",
     "definicion": "Basado en funciones puras y sin efectos secundarios.",
-    "ejemplo": "map(), reduce(), lambda"
+    "ejemplo en JavaScript": "const numeros = [1, 2, 3];\nconst cuadrados = numeros.map(n => n * n);"
   },
   {
     "id": "28",
     "titulo": "Compilación",
     "definicion": "Transformación de código fuente a ejecutable.",
-    "ejemplo": "javac archivo.java"
+    "ejemplo": "No aplica directamente en JavaScript clásico."
   },
   {
     "id": "29",
@@ -183,31 +183,31 @@
     "id": "31",
     "titulo": "Bug",
     "definicion": "Error en el código que produce un resultado incorrecto.",
-    "ejemplo": "División por cero"
+    "ejemplo en JavaScript": "let resultado = 10 / 0; // Infinito"
   },
   {
     "id": "32",
     "titulo": "Debugging",
     "definicion": "Proceso de encontrar y corregir errores.",
-    "ejemplo": "Colocar puntos de interrupción"
+    "ejemplo en JavaScript": "console.log(variable); // o usar depurador del navegador"
   },
   {
     "id": "33",
     "titulo": "IDE",
     "definicion": "Entorno de desarrollo que incluye herramientas para programar.",
-    "ejemplo": "Visual Studio Code, IntelliJ"
+    "ejemplo": "Visual Studio Code"
   },
   {
     "id": "34",
     "titulo": "Framework",
     "definicion": "Conjunto de herramientas y reglas para facilitar el desarrollo.",
-    "ejemplo": "React, Django, Spring"
+    "ejemplo": "React, Vue, Angular"
   },
   {
     "id": "35",
     "titulo": "API",
     "definicion": "Interfaz que permite comunicación entre sistemas.",
-    "ejemplo": "GET /usuarios"
+    "ejemplo en JavaScript": "fetch('/usuarios').then(res => res.json());"
   },
   {
     "id": "36",
@@ -219,24 +219,24 @@
     "id": "37",
     "titulo": "Script",
     "definicion": "Archivo con instrucciones para automatizar tareas.",
-    "ejemplo": "bash script.sh"
+    "ejemplo en JavaScript": "node tareas.js"
   },
   {
     "id": "38",
     "titulo": "Tipo de dato",
     "definicion": "Define el tipo de valor que puede almacenar una variable.",
-    "ejemplo": "int, float, string"
+    "ejemplo en JavaScript": "string, number, boolean, object"
   },
   {
     "id": "39",
     "titulo": "Constante",
     "definicion": "Valor que no cambia durante la ejecución.",
-    "ejemplo": "const PI = 3.14;"
+    "ejemplo en JavaScript": "const PI = 3.14;"
   },
   {
     "id": "40",
     "titulo": "Comentarios",
     "definicion": "Texto ignorado por el compilador, usado para explicar el código.",
-    "ejemplo": "// Esto es un comentario"
+    "ejemplo en JavaScript": "// Esto es un comentario"
   }
 ]
