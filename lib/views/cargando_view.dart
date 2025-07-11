@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class CargandoView extends StatefulWidget {
-  // ignore: use_super_parameters
   const CargandoView({Key? key}) : super(key: key);
 
   @override
@@ -13,34 +12,86 @@ class _CargandoViewState extends State<CargandoView> {
   void initState() {
     super.initState();
 
-    // Simulamos carga de 1 min antes de ir a las flashcards
+    // Simulamos una carga de 3 segundos
     Future.delayed(const Duration(seconds: 3), () {
-      // ignore: use_build_context_synchronously
-      Navigator.pushReplacementNamed(context, '/flashcards'); // 👈 próxima pantalla
+      Navigator.pushReplacementNamed(context, '/selector');
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white, // Fondo blanco
+      backgroundColor: Colors.white, // Fondo blanco puro
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Puedes reemplazar esto por una imagen/gif si tienes uno
-            const Icon(Icons.bug_report, size: 100, color: Color(0xFF0A15E0)),
-            const SizedBox(height: 20),
+            // Contenedor claymorphic para el ícono
+            Container(
+              padding: const EdgeInsets.all(30),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.white,
+                    offset: Offset(-8, -8),
+                    blurRadius: 16,
+                  ),
+                  BoxShadow(
+                    color: Color(0xFFDADADA), // Sombra suave
+                    offset: Offset(8, 8),
+                    blurRadius: 16,
+                  ),
+                ],
+              ),
+              child: const Icon(
+                Icons.bug_report,
+                size: 100,
+                color: Color(0xFF0A15E0), // Azul
+              ),
+            ),
+
+            const SizedBox(height: 30),
+
+            // Texto monstruo
             const Text(
-              'Cargando tu monstruo...',
+              'Hi, I\'m a monster too... grrwmm!',
               style: TextStyle(
                 fontSize: 20,
-                color: Color(0xFFFF7232),
+                color: Color(0xFFFF7232), // Naranja
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 20),
-            const CircularProgressIndicator(color: Color(0xFFFF7232)),
+
+            const SizedBox(height: 30),
+
+            // Circular progress claymorphic (dentro de un contenedor con sombra)
+            Container(
+              width: 80,
+              height: 80,
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.white,
+                    offset: Offset(-6, -6),
+                    blurRadius: 10,
+                  ),
+                  BoxShadow(
+                    color: Color(0xFFDADADA),
+                    offset: Offset(6, 6),
+                    blurRadius: 10,
+                  ),
+                ],
+              ),
+              child: const CircularProgressIndicator(
+                strokeWidth: 4,
+                color: Color(0xFFFF7232), // Naranja
+              ),
+            ),
           ],
         ),
       ),

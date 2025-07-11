@@ -1,33 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class LoginView extends StatefulWidget {
-  const LoginView({super.key});
+class RegisterView extends StatefulWidget {
+  const RegisterView({super.key});
 
   @override
-  State<LoginView> createState() => _LoginViewState();
+  State<RegisterView> createState() => _RegisterViewState();
 }
 
-class _LoginViewState extends State<LoginView> {
+class _RegisterViewState extends State<RegisterView> {
+  final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passController = TextEditingController();
   bool _obscurePassword = true;
 
-  Future<void> _login() async {
-    final prefs = await SharedPreferences.getInstance();
-    final savedEmail = prefs.getString('user_email');
-    final savedPass = prefs.getString('user_pass');
-
+  Future<void> _register() async {
+    final name = _nameController.text.trim();
     final email = _emailController.text.trim();
     final pass = _passController.text.trim();
 
-    if (email == savedEmail && pass == savedPass) {
-      Navigator.pushReplacementNamed(context, '/cargando');
-    } else {
+    if (name.isEmpty || email.isEmpty || pass.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Correo o contraseña incorrectos')),
+        const SnackBar(content: Text('Por favor completa todos los campos')),
       );
+      return;
     }
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('user_name', name);
+    await prefs.setString('user_email', email);
+    await prefs.setString('user_pass', pass);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('¡Registro exitoso!')),
+    );
+
+    Navigator.pushReplacementNamed(context, '/');
   }
 
   @override
@@ -42,14 +50,20 @@ class _LoginViewState extends State<LoginView> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  "Iniciar Sesión",
+                  "Crear Cuenta",
                   style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF0A15E0), // Azul
+                    color: Color(0xFFFF7232), // Naranja
                   ),
                 ),
                 const SizedBox(height: 40),
+
+                _buildClayInput(
+                  controller: _nameController,
+                  label: 'Nombre',
+                ),
+                const SizedBox(height: 20),
 
                 _buildClayInput(
                   controller: _emailController,
@@ -65,11 +79,11 @@ class _LoginViewState extends State<LoginView> {
                 const SizedBox(height: 30),
 
                 GestureDetector(
-                  onTap: _login,
+                  onTap: _register,
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 18),
                     decoration: BoxDecoration(
-                      color: const Color(0xFF0A15E0),
+                      color: const Color(0xFFFF7232),
                       borderRadius: BorderRadius.circular(32),
                       boxShadow: const [
                         BoxShadow(
@@ -78,14 +92,14 @@ class _LoginViewState extends State<LoginView> {
                           blurRadius: 16,
                         ),
                         BoxShadow(
-                          color: Color(0xFF737FBF),
+                          color: Color(0xFFB06C52),
                           offset: Offset(8, 8),
                           blurRadius: 16,
                         ),
                       ],
                     ),
                     child: const Text(
-                      'Iniciar Sesión',
+                      'Registrarme',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 18,
@@ -95,24 +109,25 @@ class _LoginViewState extends State<LoginView> {
                     ),
                   ),
                 ),
+
                 const SizedBox(height: 24),
 
                 GestureDetector(
                   onTap: () {
-                    Navigator.pushReplacementNamed(context, '/register');
+                    Navigator.pushReplacementNamed(context, '/');
                   },
                   child: RichText(
                     text: const TextSpan(
-                      text: '¿No tienes cuenta? ',
+                      text: '¿Ya tienes cuenta? ',
                       style: TextStyle(
-                        color: Color(0xFFFF7232),
+                        color: Color(0xFF0A15E0), // Azul
                         fontSize: 16,
                       ),
                       children: [
                         TextSpan(
-                          text: 'Regístrate',
+                          text: 'Inicia sesión',
                           style: TextStyle(
-                            color: Color(0xFFFF7232),
+                            color: Color(0xFF0A15E0),
                             fontWeight: FontWeight.bold,
                             decoration: TextDecoration.underline,
                           ),
@@ -146,7 +161,7 @@ class _LoginViewState extends State<LoginView> {
             blurRadius: 10,
           ),
           BoxShadow(
-            color: Color(0xFFDADADA), // sombra gris clara
+            color: Color(0xFFDADADA), // sombra gris muy clara
             offset: Offset(6, 6),
             blurRadius: 10,
           ),
@@ -155,18 +170,18 @@ class _LoginViewState extends State<LoginView> {
       child: TextField(
         controller: controller,
         obscureText: isPassword ? _obscurePassword : false,
-        style: const TextStyle(color: Color(0xFF0A15E0)),
-        cursorColor: const Color(0xFF0A15E0),
+        style: const TextStyle(color: Color(0xFFFF7232)),
+        cursorColor: const Color(0xFFFF7232),
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
           labelText: label,
-          labelStyle: const TextStyle(color: Color(0xFF0A15E0)),
+          labelStyle: const TextStyle(color: Color(0xFFFF7232)),
           border: InputBorder.none,
           suffixIcon: isPassword
               ? IconButton(
                   icon: Icon(
                     _obscurePassword ? Icons.visibility_off : Icons.visibility,
-                    color: const Color(0xFF0A15E0),
+                    color: const Color(0xFFFF7232),
                   ),
                   onPressed: () {
                     setState(() {

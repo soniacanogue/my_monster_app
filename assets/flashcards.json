@@ -16,5 +16,227 @@
     "titulo": "Condicional",
     "definicion": "Permite tomar decisiones en el código.",
     "ejemplo": "if (edad > 18) { print('Mayor'); }"
+  },
+  {
+    "id": "4",
+    "titulo": "Bucle",
+    "definicion": "Estructura que repite un bloque de código.",
+    "ejemplo": "for (int i = 0; i < 5; i++) { print(i); }"
+  },
+  {
+    "id": "5",
+    "titulo": "Array",
+    "definicion": "Colección de elementos del mismo tipo.",
+    "ejemplo": "int[] numeros = {1, 2, 3};"
+  },
+  {
+    "id": "6",
+    "titulo": "Clase",
+    "definicion": "Plantilla para crear objetos con atributos y métodos.",
+    "ejemplo": "class Persona { String nombre; }"
+  },
+  {
+    "id": "7",
+    "titulo": "Objeto",
+    "definicion": "Instancia de una clase.",
+    "ejemplo": "Persona p = new Persona();"
+  },
+  {
+    "id": "8",
+    "titulo": "Herencia",
+    "definicion": "Permite que una clase herede de otra.",
+    "ejemplo": "class Estudiante extends Persona {}"
+  },
+  {
+    "id": "9",
+    "titulo": "Polimorfismo",
+    "definicion": "Objetos pueden comportarse de distintas maneras según el contexto.",
+    "ejemplo": "animal.hacerSonido();"
+  },
+  {
+    "id": "10",
+    "titulo": "Encapsulamiento",
+    "definicion": "Oculta los detalles internos de un objeto.",
+    "ejemplo": "private int edad;"
+  },
+  {
+    "id": "11",
+    "titulo": "Recursividad",
+    "definicion": "Función que se llama a sí misma.",
+    "ejemplo": "factorial(n) { return n * factorial(n-1); }"
+  },
+  {
+    "id": "12",
+    "titulo": "Puntero",
+    "definicion": "Variable que guarda la dirección de memoria de otra variable.",
+    "ejemplo": "int* ptr = &x;"
+  },
+  {
+    "id": "13",
+    "titulo": "Compilador",
+    "definicion": "Traduce el código fuente a código máquina.",
+    "ejemplo": "gcc archivo.c"
+  },
+  {
+    "id": "14",
+    "titulo": "Interpretador",
+    "definicion": "Ejecuta el código línea por línea.",
+    "ejemplo": "python script.py"
+  },
+  {
+    "id": "15",
+    "titulo": "SQL",
+    "definicion": "Lenguaje para manipular bases de datos relacionales.",
+    "ejemplo": "SELECT * FROM usuarios;"
+  },
+  {
+    "id": "16",
+    "titulo": "Tabla",
+    "definicion": "Estructura que almacena datos en filas y columnas.",
+    "ejemplo": "CREATE TABLE personas (id INT, nombre TEXT);"
+  },
+  {
+    "id": "17",
+    "titulo": "Llave primaria",
+    "definicion": "Identifica de forma única cada fila.",
+    "ejemplo": "id INT PRIMARY KEY"
+  },
+  {
+    "id": "18",
+    "titulo": "Llave foránea",
+    "definicion": "Referencia a la llave primaria de otra tabla.",
+    "ejemplo": "FOREIGN KEY (user_id) REFERENCES usuarios(id)"
+  },
+  {
+    "id": "19",
+    "titulo": "JOIN",
+    "definicion": "Combina filas de dos o más tablas.",
+    "ejemplo": "SELECT * FROM A JOIN B ON A.id = B.a_id;"
+  },
+  {
+    "id": "20",
+    "titulo": "Normalización",
+    "definicion": "Proceso para reducir la redundancia en bases de datos.",
+    "ejemplo": "Separar nombre completo en nombre y apellido"
+  },
+  {
+    "id": "21",
+    "titulo": "Índice",
+    "definicion": "Estructura que mejora la búsqueda en una tabla.",
+    "ejemplo": "CREATE INDEX idx_nombre ON usuarios(nombre);"
+  },
+  {
+    "id": "22",
+    "titulo": "Transacción",
+    "definicion": "Conjunto de operaciones que se ejecutan como una sola unidad.",
+    "ejemplo": "BEGIN; UPDATE...; COMMIT;"
+  },
+  {
+    "id": "23",
+    "titulo": "ACID",
+    "definicion": "Propiedades de transacciones: Atomicidad, Consistencia, Aislamiento, Durabilidad.",
+    "ejemplo": "COMMIT asegura durabilidad."
+  },
+  {
+    "id": "24",
+    "titulo": "CRUD",
+    "definicion": "Operaciones básicas de bases de datos: Crear, Leer, Actualizar, Eliminar.",
+    "ejemplo": "INSERT, SELECT, UPDATE, DELETE"
+  },
+  {
+    "id": "25",
+    "titulo": "Paradigma imperativo",
+    "definicion": "Se enfoca en cómo se hace algo paso a paso.",
+    "ejemplo": "for, if, asignaciones"
+  },
+  {
+    "id": "26",
+    "titulo": "Paradigma orientado a objetos",
+    "definicion": "Modelo basado en objetos que interactúan entre sí.",
+    "ejemplo": "class, objeto, herencia"
+  },
+  {
+    "id": "27",
+    "titulo": "Paradigma funcional",
+    "definicion": "Basado en funciones puras y sin efectos secundarios.",
+    "ejemplo": "map(), reduce(), lambda"
+  },
+  {
+    "id": "28",
+    "titulo": "Compilación",
+    "definicion": "Transformación de código fuente a ejecutable.",
+    "ejemplo": "javac archivo.java"
+  },
+  {
+    "id": "29",
+    "titulo": "Git",
+    "definicion": "Sistema de control de versiones.",
+    "ejemplo": "git commit -m 'mensaje'"
+  },
+  {
+    "id": "30",
+    "titulo": "Repositorio",
+    "definicion": "Almacén de archivos y su historial de versiones.",
+    "ejemplo": "GitHub, GitLab"
+  },
+  {
+    "id": "31",
+    "titulo": "Bug",
+    "definicion": "Error en el código que produce un resultado incorrecto.",
+    "ejemplo": "División por cero"
+  },
+  {
+    "id": "32",
+    "titulo": "Debugging",
+    "definicion": "Proceso de encontrar y corregir errores.",
+    "ejemplo": "Colocar puntos de interrupción"
+  },
+  {
+    "id": "33",
+    "titulo": "IDE",
+    "definicion": "Entorno de desarrollo que incluye herramientas para programar.",
+    "ejemplo": "Visual Studio Code, IntelliJ"
+  },
+  {
+    "id": "34",
+    "titulo": "Framework",
+    "definicion": "Conjunto de herramientas y reglas para facilitar el desarrollo.",
+    "ejemplo": "React, Django, Spring"
+  },
+  {
+    "id": "35",
+    "titulo": "API",
+    "definicion": "Interfaz que permite comunicación entre sistemas.",
+    "ejemplo": "GET /usuarios"
+  },
+  {
+    "id": "36",
+    "titulo": "REST",
+    "definicion": "Estilo de arquitectura para servicios web.",
+    "ejemplo": "GET, POST, PUT, DELETE"
+  },
+  {
+    "id": "37",
+    "titulo": "Script",
+    "definicion": "Archivo con instrucciones para automatizar tareas.",
+    "ejemplo": "bash script.sh"
+  },
+  {
+    "id": "38",
+    "titulo": "Tipo de dato",
+    "definicion": "Define el tipo de valor que puede almacenar una variable.",
+    "ejemplo": "int, float, string"
+  },
+  {
+    "id": "39",
+    "titulo": "Constante",
+    "definicion": "Valor que no cambia durante la ejecución.",
+    "ejemplo": "const PI = 3.14;"
+  },
+  {
+    "id": "40",
+    "titulo": "Comentarios",
+    "definicion": "Texto ignorado por el compilador, usado para explicar el código.",
+    "ejemplo": "// Esto es un comentario"
   }
 ]
