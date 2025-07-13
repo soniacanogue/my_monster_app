@@ -3,67 +3,67 @@
     "id": "1",
     "titulo": "Variable",
     "definicion": "Espacio en memoria donde se guarda información.",
-    "ejemplo en JavaScript": "let edad = 25;"
+    "ejemplo": "let edad = 25;"
   },
   {
     "id": "2",
     "titulo": "Función",
     "definicion": "Bloque de código que realiza una tarea.",
-    "ejemplo en JavaScript": "function saludar() {\n  console.log('Hola');\n}"
+    "ejemplo": "function saludar() {\n  console.log('Hola');\n}"
   },
   {
     "id": "3",
     "titulo": "Condicional",
     "definicion": "Permite tomar decisiones en el código.",
-    "ejemplo en JavaScript": "if (edad > 18) {\n  console.log('Mayor');\n}"
+    "ejemplo": "if (edad > 18) {\n  console.log('Mayor');\n}"
   },
   {
     "id": "4",
     "titulo": "Bucle",
     "definicion": "Estructura que repite un bloque de código.",
-    "ejemplo en JavaScript": "for (let i = 0; i < 5; i++) {\n  console.log(i);\n}"
+    "ejemplo": "for (let i = 0; i < 5; i++) {\n  console.log(i);\n}"
   },
   {
     "id": "5",
     "titulo": "Array",
     "definicion": "Colección de elementos del mismo tipo.",
-    "ejemplo en JavaScript": "let numeros = [1, 2, 3];"
+    "ejemplo": "let numeros = [1, 2, 3];"
   },
   {
     "id": "6",
     "titulo": "Clase",
     "definicion": "Plantilla para crear objetos con atributos y métodos.",
-    "ejemplo en JavaScript": "class Persona {\n  constructor(nombre) {\n    this.nombre = nombre;\n  }\n}"
+    "ejemplo": "class Persona {\n  constructor(nombre) {\n    this.nombre = nombre;\n  }\n}"
   },
   {
     "id": "7",
     "titulo": "Objeto",
     "definicion": "Instancia de una clase.",
-    "ejemplo en JavaScript": "let persona = new Persona('Ana');"
+    "ejemplo": "let persona = new Persona('Ana');"
   },
   {
     "id": "8",
     "titulo": "Herencia",
     "definicion": "Permite que una clase herede de otra.",
-    "ejemplo en JavaScript": "class Estudiante extends Persona {\n  constructor(nombre, curso) {\n    super(nombre);\n    this.curso = curso;\n  }\n}"
+    "ejemplo": "class Estudiante extends Persona {\n  constructor(nombre, curso) {\n    super(nombre);\n    this.curso = curso;\n  }\n}"
   },
   {
     "id": "9",
     "titulo": "Polimorfismo",
     "definicion": "Objetos pueden comportarse de distintas maneras según el contexto.",
-    "ejemplo en JavaScript": "class Animal {\n  hacerSonido() {\n    console.log('Sonido genérico');\n  }\n}\nclass Perro extends Animal {\n  hacerSonido() {\n    console.log('Guau');\n  }\n}\nlet animal = new Perro();\nanimal.hacerSonido();"
+    "ejemplo": "class Animal {\n  hacerSonido() {\n    console.log('Sonido genérico');\n  }\n}\nclass Perro extends Animal {\n  hacerSonido() {\n    console.log('Guau');\n  }\n}\nlet animal = new Perro();\nanimal.hacerSonido();"
   },
   {
     "id": "10",
     "titulo": "Encapsulamiento",
     "definicion": "Oculta los detalles internos de un objeto.",
-    "ejemplo en JavaScript": "class Persona {\n  #edad;\n  constructor(edad) {\n    this.#edad = edad;\n  }\n}"
+    "ejemplo": "class Persona {\n  #edad;\n  constructor(edad) {\n    this.#edad = edad;\n  }\n}"
   },
   {
     "id": "11",
     "titulo": "Recursividad",
     "definicion": "Función que se llama a sí misma.",
-    "ejemplo en JavaScript": "function factorial(n) {\n  if (n === 0) return 1;\n  return n * factorial(n - 1);\n}"
+    "ejemplo": "function factorial(n) {\n  if (n === 0) return 1;\n  return n * factorial(n - 1);\n}"
   },
   {
     "id": "12",
@@ -147,19 +147,19 @@
     "id": "25",
     "titulo": "Paradigma imperativo",
     "definicion": "Se enfoca en cómo se hace algo paso a paso.",
-    "ejemplo en JavaScript": "let suma = 0;\nfor (let i = 0; i < 10; i++) {\n  suma += i;\n}"
+    "ejemplo": "let suma = 0;\nfor (let i = 0; i < 10; i++) {\n  suma += i;\n}"
   },
   {
     "id": "26",
     "titulo": "Paradigma orientado a objetos",
     "definicion": "Modelo basado en objetos que interactúan entre sí.",
-    "ejemplo en JavaScript": "class Animal {\n  constructor(nombre) {\n    this.nombre = nombre;\n  }\n}"
+    "ejemplo": "class Animal {\n  constructor(nombre) {\n    this.nombre = nombre;\n  }\n}"
   },
   {
     "id": "27",
     "titulo": "Paradigma funcional",
     "definicion": "Basado en funciones puras y sin efectos secundarios.",
-    "ejemplo en JavaScript": "const numeros = [1, 2, 3];\nconst cuadrados = numeros.map(n => n * n);"
+    "ejemplo": "const numeros = [1, 2, 3];\nconst cuadrados = numeros.map(n => n * n);"
   },
   {
     "id": "28",
@@ -183,13 +183,13 @@
     "id": "31",
     "titulo": "Bug",
     "definicion": "Error en el código que produce un resultado incorrecto.",
-    "ejemplo en JavaScript": "let resultado = 10 / 0; // Infinito"
+    "ejemplo": "let resultado = 10 / 0; // Infinito"
   },
   {
     "id": "32",
     "titulo": "Debugging",
     "definicion": "Proceso de encontrar y corregir errores.",
-    "ejemplo en JavaScript": "console.log(variable); // o usar depurador del navegador"
+    "ejemplo": "console.log(variable); // o usar depurador del navegador"
   },
   {
     "id": "33",
@@ -207,7 +207,7 @@
     "id": "35",
     "titulo": "API",
     "definicion": "Interfaz que permite comunicación entre sistemas.",
-    "ejemplo en JavaScript": "fetch('/usuarios').then(res => res.json());"
+    "ejemplo": "fetch('/usuarios').then(res => res.json());"
   },
   {
     "id": "36",
@@ -219,24 +219,24 @@
     "id": "37",
     "titulo": "Script",
     "definicion": "Archivo con instrucciones para automatizar tareas.",
-    "ejemplo en JavaScript": "node tareas.js"
+    "ejemplo": "node tareas.js"
   },
   {
     "id": "38",
     "titulo": "Tipo de dato",
     "definicion": "Define el tipo de valor que puede almacenar una variable.",
-    "ejemplo en JavaScript": "string, number, boolean, object"
+    "ejemplo": "string, number, boolean, object"
   },
   {
     "id": "39",
     "titulo": "Constante",
     "definicion": "Valor que no cambia durante la ejecución.",
-    "ejemplo en JavaScript": "const PI = 3.14;"
+    "ejemplo": "const PI = 3.14;"
   },
   {
     "id": "40",
     "titulo": "Comentarios",
     "definicion": "Texto ignorado por el compilador, usado para explicar el código.",
-    "ejemplo en JavaScript": "// Esto es un comentario"
+    "ejemplo": "// Esto es un comentario"
   }
 ]

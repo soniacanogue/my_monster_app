@@ -5,7 +5,7 @@ import 'views/flashcards_view.dart';
 import 'views/register_view.dart'; // ✅ Ruta nueva para registro
 import 'views/selector_view.dart'; // Importa la vista del selector
 import 'views/gracias_fin_view.dart'; // Importa la vista de agradecimiento al finalizar
-
+import 'views/instrucciones_view.dart'; // Importa la vista de instrucciones
 
 
 void main() {
@@ -50,6 +50,7 @@ class MyApp extends StatelessWidget {
         '/selector': (context) => const SelectorView(), // Ruta para el selector
         '/flashcards': (context) => const FlashcardsView(),
         '/gracias': (context) => const GraciasFinView(),  // Ruta para la vista de agradecimiento al finalizar
+        '/instrucciones': (context) => const InstruccionesView(), // Ruta para la vista de instrucciones
       },
     );
   }

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flip_card/flip_card.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../models/flashcard.dart';
-import '../services/flashcard_service.dart';
+import '../controllers/flashcards_controller.dart';
 
 class FlashcardsView extends StatefulWidget {
   const FlashcardsView({Key? key}) : super(key: key);
@@ -12,9 +11,7 @@ class FlashcardsView extends StatefulWidget {
 }
 
 class _FlashcardsViewState extends State<FlashcardsView> with SingleTickerProviderStateMixin {
-  List<FlashCard> _cartas = [];
-  int _indiceActual = 0;
-  int _cantidad = 10;
+  late FlashcardsController _controller;
 
   final GlobalKey<FlipCardState> _cardKey = GlobalKey<FlipCardState>();
 
@@ -24,6 +21,8 @@ class _FlashcardsViewState extends State<FlashcardsView> with SingleTickerProvid
   @override
   void initState() {
     super.initState();
+    _controller = FlashcardsController();
+    
     _slideController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 400),
@@ -36,57 +35,37 @@ class _FlashcardsViewState extends State<FlashcardsView> with SingleTickerProvid
     _slideController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         _slideController.reset();
-        _avanzarCarta();
+        _controller.avanzarCarta();
       }
     });
 
     Future.delayed(Duration.zero, () {
       final cantidad = ModalRoute.of(context)?.settings.arguments as int? ?? 10;
-      _cantidad = cantidad;
-      _cargarCartas(cantidad);
+      _controller.inicializar(cantidad);
     });
   }
 
   @override
   void dispose() {
     _slideController.dispose();
+    _controller.dispose();
     super.dispose();
-  }
-
-  void _cargarCartas(int cantidad) async {
-    final prefs = await SharedPreferences.getInstance();
-    final indexGuardado = prefs.getInt('indice_guardado') ?? 0;
-
-    final servicio = FlashCardService();
-    final cartas = await servicio.cargarCartasDesdeJson();
-
-    setState(() {
-      _cartas = cartas.take(cantidad).toList();
-      _indiceActual = indexGuardado < cantidad ? indexGuardado : 0;
-    });
-  }
-
-  void _avanzarCarta() {
-    if (_indiceActual < _cartas.length - 1) {
-      setState(() {
-        _indiceActual++;
-      });
-    } else {
-      _mostrarDespedida();
-    }
   }
 
   void _mostrarDespedida() {
     showDialog(
       context: context,
+      barrierDismissible: false, // No permitir cerrar tocando fuera
       builder: (context) => AlertDialog(
         title: const Text('¡Terminaste!'),
         content: const Text('Has visto todas las cartas.'),
         actions: [
           TextButton(
-            onPressed: () {
+            onPressed: () async {
+              // Cerrar el diálogo
               Navigator.pop(context);
-              Navigator.pop(context);
+              // Guardar progreso y navegar a la vista de gracias
+              await _guardarProgresoYMostrarDespedida();
             },
             child: const Text('Cerrar'),
           ),
@@ -96,9 +75,7 @@ class _FlashcardsViewState extends State<FlashcardsView> with SingleTickerProvid
   }
 
   Future<void> _guardarProgresoYMostrarDespedida() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('indice_guardado', _indiceActual);
-    await prefs.setInt('cantidad_guardada', _cantidad);
+    await _controller.guardarProgreso();
     if (mounted) {
       Navigator.pushNamed(context, '/gracias');
     }
@@ -117,66 +94,85 @@ class _FlashcardsViewState extends State<FlashcardsView> with SingleTickerProvid
 
   @override
   Widget build(BuildContext context) {
-    if (_cartas.isEmpty) {
-      return const Scaffold(
-        backgroundColor: Colors.white,
-        body: Center(child: CircularProgressIndicator()),
-      );
-    }
+    return ListenableBuilder(
+      listenable: _controller,
+      builder: (context, child) {
+        if (_controller.isLoading) {
+          return const Scaffold(
+            backgroundColor: Colors.white,
+            body: Center(child: CircularProgressIndicator()),
+          );
+        }
 
-    final carta = _cartas[_indiceActual];
+        if (_controller.cartas.isEmpty) {
+          return const Scaffold(
+            backgroundColor: Colors.white,
+            body: Center(child: Text('No hay cartas disponibles')),
+          );
+        }
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: const Color(0xFF0A15E0),
-        elevation: 0,
-        title: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0),
-          child: Text(
-            '${_indiceActual + 1} / ${_cartas.length}',
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
+        final carta = _controller.cartaActual!;
+
+        // Mostrar despedida si es la última carta
+        if (_controller.esUltimaCarta && _controller.indiceActual == _controller.cartas.length - 1) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            _mostrarDespedida();
+          });
+        }
+
+        return Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            backgroundColor: const Color(0xFF0A15E0),
+            elevation: 0,
+            title: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              child: Text(
+                '${_controller.indiceActual + 1} / ${_controller.totalCartas}',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
             ),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(right: 12.0),
+                child: IconButton(
+                  icon: const Icon(Icons.logout, color: Colors.white),
+                  tooltip: 'Salir y guardar',
+                  onPressed: _guardarProgresoYMostrarDespedida,
+                ),
+              ),
+            ],
+            automaticallyImplyLeading: false,
           ),
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 12.0),
-            child: IconButton(
-              icon: const Icon(Icons.logout, color: Colors.white),
-              tooltip: 'Salir y guardar',
-              onPressed: _guardarProgresoYMostrarDespedida,
-            ),
-          ),
-        ],
-        automaticallyImplyLeading: false,
-      ),
-      body: Center(
-        child: SlideTransition(
-          position: _slideAnimation,
-          child: GestureDetector(
-            onTap: () {
-              if (_cardKey.currentState != null) {
-                _cardKey.currentState!.toggleCard();
-              }
-            },
-            onDoubleTap: _onDoubleTap,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 48.0), //  Más espacio lateral
-              child: FlipCard(
-                key: _cardKey,
-                flipOnTouch: false,
-                direction: FlipDirection.HORIZONTAL,
-                front: _buildCardContent(carta.titulo, true),
-                back: _buildCardContent('${carta.definicion}\n\nEjemplo:\n${carta.ejemplo}', false),
+          body: Center(
+            child: SlideTransition(
+              position: _slideAnimation,
+              child: GestureDetector(
+                onTap: () {
+                  if (_cardKey.currentState != null) {
+                    _cardKey.currentState!.toggleCard();
+                  }
+                },
+                onDoubleTap: _onDoubleTap,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 48.0),
+                  child: FlipCard(
+                    key: _cardKey,
+                    flipOnTouch: false,
+                    direction: FlipDirection.HORIZONTAL,
+                    front: _buildCardContent(carta.titulo, true),
+                    back: _buildCardContent('${carta.definicion}\n\nEjemplo:\n${carta.ejemplo}', false),
+                  ),
+                ),
               ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
