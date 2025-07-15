@@ -1,5 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart'; // ✅ Firebase Auth
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'flashcards_controller.dart';
 
 class LoginController extends ChangeNotifier {
   final TextEditingController emailController = TextEditingController();
@@ -34,7 +35,6 @@ class LoginController extends ChangeNotifier {
       return false;
     }
 
-    // Validación básica de email
     if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email)) {
       _errorMessage = 'Por favor ingresa un email válido';
       notifyListeners();
@@ -44,45 +44,49 @@ class LoginController extends ChangeNotifier {
     return true;
   }
 
-  Future<bool> login() async {
-    if (!_validateFields()) {
-      return false;
-    }
+  Future<bool> login({FlashcardsController? flashcardsController}) async {
+    if (!_validateFields()) return false;
 
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
 
+    final email = emailController.text.trim();
+    final pass = passController.text.trim();
+
     try {
-      final prefs = await SharedPreferences.getInstance();
-      final savedEmail = prefs.getString('user_email');
-      final savedPass = prefs.getString('user_pass');
+      // ✅ Autenticación con Firebase
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: pass,
+      );
 
-      final email = emailController.text.trim();
-      final pass = passController.text.trim();
+      // Limpiar progreso local del usuario anterior
+      await FlashcardsController.limpiarProgresoLocal();
 
-      // Verificar si el usuario existe
-      if (savedEmail == null || savedPass == null) {
-        _errorMessage = 'No hay usuarios registrados. Por favor regístrate primero.';
-        _isLoading = false;
-        notifyListeners();
-        return false;
+      // Cargar progreso desde Firestore si se pasa el controlador
+      if (flashcardsController != null) {
+        await flashcardsController.cargarProgresoDesdeFirestore();
       }
 
-      // Verificar credenciales
-      if (email == savedEmail && pass == savedPass) {
-        _isLoading = false;
-        notifyListeners();
-        return true;
-      } else {
-        _errorMessage = 'Correo o contraseña incorrectos';
-        _isLoading = false;
-        notifyListeners();
-        return false;
-      }
-    } catch (e) {
       _isLoading = false;
-      _errorMessage = 'Error al iniciar sesión: $e';
+      notifyListeners();
+      return true;
+    } on FirebaseAuthException catch (e) {
+      // ✅ Errores comunes de Firebase
+      if (e.code == 'user-not-found') {
+        _errorMessage = 'Usuario no encontrado. Verifica el correo.';
+      } else if (e.code == 'wrong-password') {
+        _errorMessage = 'Contraseña incorrecta.';
+      } else {
+        _errorMessage = 'Error: ${e.message}';
+      }
+      _isLoading = false;
+      notifyListeners();
+      return false;
+    } catch (e) {
+      _errorMessage = 'Error inesperado: $e';
+      _isLoading = false;
       notifyListeners();
       return false;
     }
@@ -101,4 +105,4 @@ class LoginController extends ChangeNotifier {
     passController.dispose();
     super.dispose();
   }
-} 
+}

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class CargandoController extends ChangeNotifier {
   bool _isLoading = true;
@@ -57,4 +59,18 @@ class CargandoController extends ChangeNotifier {
 
   // Verificar si la carga ha terminado
   bool get cargaCompletada => !_isLoading && _tiempoRestante == 0;
+
+  // Nuevo: Detectar si el usuario tiene progreso guardado en Firestore
+  Future<bool> tieneProgresoGuardadoFirestore() async {
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+    if (uid == null) return false;
+    final doc = await FirebaseFirestore.instance.collection('usuarios').doc(uid).get();
+    if (doc.exists) {
+      final data = doc.data();
+      if (data != null && data['progreso'] != null && data['progreso']['indice'] != null) {
+        return true;
+      }
+    }
+    return false;
+  }
 } 

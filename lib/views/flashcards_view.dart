@@ -4,7 +4,8 @@ import '../models/flashcard.dart';
 import '../controllers/flashcards_controller.dart';
 
 class FlashcardsView extends StatefulWidget {
-  const FlashcardsView({Key? key}) : super(key: key);
+  final FlashcardsController controller;
+  const FlashcardsView({Key? key, required this.controller}) : super(key: key);
 
   @override
   State<FlashcardsView> createState() => _FlashcardsViewState();
@@ -21,7 +22,7 @@ class _FlashcardsViewState extends State<FlashcardsView> with SingleTickerProvid
   @override
   void initState() {
     super.initState();
-    _controller = FlashcardsController();
+    _controller = widget.controller;
     
     _slideController = AnimationController(
       vsync: this,
@@ -37,11 +38,6 @@ class _FlashcardsViewState extends State<FlashcardsView> with SingleTickerProvid
         _slideController.reset();
         _controller.avanzarCarta();
       }
-    });
-
-    Future.delayed(Duration.zero, () {
-      final cantidad = ModalRoute.of(context)?.settings.arguments as int? ?? 10;
-      _controller.inicializar(cantidad);
     });
   }
 

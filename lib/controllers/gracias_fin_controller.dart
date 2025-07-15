@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'flashcards_controller.dart';
 
 class GraciasFinController extends ChangeNotifier {
   bool _isLoading = false;
@@ -25,6 +27,12 @@ class GraciasFinController extends ChangeNotifier {
     _errorMessage = null;
 
     try {
+      // Cerrar sesión en Firebase
+      await FirebaseAuth.instance.signOut();
+
+      // Limpiar progreso local
+      await FlashcardsController.limpiarProgresoLocal();
+
       final prefs = await SharedPreferences.getInstance();
       
       // Borra solo los datos de login

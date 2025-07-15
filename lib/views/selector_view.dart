@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../controllers/selector_controller.dart';
+import '../controllers/flashcards_controller.dart';
+import '../views/flashcards_view.dart';
 
 class SelectorView extends StatefulWidget {
   const SelectorView({super.key});
@@ -28,10 +30,14 @@ class _SelectorViewState extends State<SelectorView> {
     try {
       await _controller.cargarMazo(cantidad);
       if (mounted) {
-        Navigator.pushNamed(
+        final flashcardsController = FlashcardsController();
+        // No cargar progreso anterior, inicializar con la cantidad seleccionada
+        flashcardsController.inicializar(cantidad);
+        Navigator.push(
           context,
-          '/flashcards',
-          arguments: cantidad,
+          MaterialPageRoute(
+            builder: (context) => FlashcardsView(controller: flashcardsController),
+          ),
         );
       }
     } catch (e) {

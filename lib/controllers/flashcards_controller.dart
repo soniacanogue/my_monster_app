@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/flashcard.dart';
 import '../services/flashcard_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class FlashcardsController extends ChangeNotifier {
   List<FlashCard> _cartas = [];
@@ -20,9 +22,11 @@ class FlashcardsController extends ChangeNotifier {
   bool get esUltimaCarta => _indiceActual >= _cartas.length - 1;
   int get totalCartas => _cartas.length;
 
-  void inicializar(int cantidad) {
-    _cantidad = cantidad;
-    _cargarCartas(cantidad);
+  void inicializar([int? cantidad]) {
+    if (cantidad != null) {
+      _cantidad = cantidad;
+    }
+    _cargarCartas(_cantidad);
   }
 
   Future<void> _cargarCartas(int cantidad) async {
@@ -66,6 +70,17 @@ class FlashcardsController extends ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setInt('indice_guardado', _indiceActual);
     await prefs.setInt('cantidad_guardada', _cantidad);
+
+    // Guardar también en Firestore si el usuario está autenticado
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+    if (uid != null) {
+      await FirebaseFirestore.instance.collection('usuarios').doc(uid).update({
+        'progreso': {
+          'indice': _indiceActual,
+          'cantidad': _cantidad,
+        },
+      });
+    }
   }
 
   void resetearProgreso() {
@@ -74,4 +89,28 @@ class FlashcardsController extends ChangeNotifier {
   }
 
   bool get puedeAvanzar => _indiceActual < _cartas.length - 1;
+
+  /// Limpia el progreso guardado localmente (SharedPreferences)
+  static Future<void> limpiarProgresoLocal() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('indice_guardado');
+    await prefs.remove('cantidad_guardada');
+  }
+
+  /// Carga el progreso del usuario actual desde Firestore
+  Future<void> cargarProgresoDesdeFirestore() async {
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+    if (uid == null) return;
+
+    final doc = await FirebaseFirestore.instance.collection('usuarios').doc(uid).get();
+    if (doc.exists) {
+      final data = doc.data();
+      if (data != null && data['progreso'] != null) {
+        final progreso = data['progreso'];
+        _indiceActual = progreso['indice'] ?? 0;
+        _cantidad = progreso['cantidad'] ?? 10;
+        notifyListeners();
+      }
+    }
+  }
 } 

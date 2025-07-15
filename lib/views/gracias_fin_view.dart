@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../controllers/gracias_fin_controller.dart';
+import '../controllers/flashcards_controller.dart';
+import '../views/flashcards_view.dart';
 
 class GraciasFinView extends StatefulWidget {
   const GraciasFinView({Key? key}) : super(key: key);
@@ -112,6 +114,24 @@ class _GraciasFinViewState extends State<GraciasFinView> {
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 40),
+                    // Botón de volver a flashcards
+                    IconButton(
+                      icon: const Icon(Icons.arrow_back, color: Colors.white, size: 32),
+                      tooltip: 'Volver a flashcards',
+                      onPressed: () async {
+                        final flashcardsController = FlashcardsController();
+                        await flashcardsController.cargarProgresoDesdeFirestore();
+                        flashcardsController.inicializar(flashcardsController.cantidad);
+                        if (mounted) {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => FlashcardsView(controller: flashcardsController),
+                            ),
+                          );
+                        }
+                      },
+                    ),
                     ElevatedButton.icon(
                       onPressed: _controller.isLoading ? null : _handleCerrarSesion,
                       icon: _controller.isLoading 

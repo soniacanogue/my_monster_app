@@ -1,5 +1,9 @@
+
 import 'package:flutter/material.dart';
+
 import '../controllers/register_controller.dart';
+import '../controllers/flashcards_controller.dart';
+import '../views/flashcards_view.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -24,17 +28,30 @@ class _RegisterViewState extends State<RegisterView> {
   }
 
   Future<void> _handleRegister() async {
-    final success = await _controller.register();
-    
+    final flashcardsController = FlashcardsController();
+    final success = await _controller.register(flashcardsController: flashcardsController);
+
     if (success && mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('¡Registro exitoso!')),
+      _controller.clearFields(); // ✅ Limpiar campos solo si el registro fue exitoso
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => AlertDialog(
+          title: const Text('¡Registro exitoso!'),
+          content: const Text('Tu cuenta ha sido creada correctamente. Ahora puedes iniciar sesión.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context); // Cierra el diálogo
+                Navigator.pushReplacementNamed(context, '/'); // Ir a login
+              },
+              child: const Text('Ir a login'),
+            ),
+          ],
+        ),
       );
-      Navigator.pushReplacementNamed(context, '/');
     } else if (mounted && _controller.errorMessage != null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(_controller.errorMessage!)),
-      );
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(_controller.errorMessage!)));
     }
   }
 
@@ -84,10 +101,13 @@ class _RegisterViewState extends State<RegisterView> {
                     GestureDetector(
                       onTap: _controller.isLoading ? null : _handleRegister,
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 18),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 60,
+                          vertical: 18,
+                        ),
                         decoration: BoxDecoration(
-                          color: _controller.isLoading 
-                              ? Colors.grey 
+                          color: _controller.isLoading
+                              ? Colors.grey
                               : const Color(0xFFFF7232),
                           borderRadius: BorderRadius.circular(32),
                           boxShadow: const [
@@ -189,14 +209,19 @@ class _RegisterViewState extends State<RegisterView> {
         style: const TextStyle(color: Color(0xFFFF7232)),
         cursorColor: const Color(0xFFFF7232),
         decoration: InputDecoration(
-          contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 18,
+          ),
           labelText: label,
           labelStyle: const TextStyle(color: Color(0xFFFF7232)),
           border: InputBorder.none,
           suffixIcon: isPassword
               ? IconButton(
                   icon: Icon(
-                    _controller.obscurePassword ? Icons.visibility_off : Icons.visibility,
+                    _controller.obscurePassword
+                        ? Icons.visibility_off
+                        : Icons.visibility,
                     color: const Color(0xFFFF7232),
                   ),
                   onPressed: _controller.togglePasswordVisibility,

@@ -1,5 +1,9 @@
+
 import 'package:flutter/material.dart';
+
 import '../controllers/login_controller.dart';
+import '../controllers/flashcards_controller.dart';
+import '../views/flashcards_view.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -24,8 +28,9 @@ class _LoginViewState extends State<LoginView> {
   }
 
   Future<void> _handleLogin() async {
-    final success = await _controller.login();
-    
+    final flashcardsController = FlashcardsController();
+    final success = await _controller.login(flashcardsController: flashcardsController);
+
     if (success && mounted) {
       Navigator.pushReplacementNamed(context, '/cargando');
     } else if (mounted && _controller.errorMessage != null) {

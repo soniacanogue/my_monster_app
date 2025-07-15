@@ -17,10 +17,10 @@ class _CargandoViewState extends State<CargandoView> {
     _controller = CargandoController();
     _controller.iniciarCarga();
 
-    // Simulamos una carga de 3 segundos
+    // Al terminar la carga, navegar a la vista de transición
     Future.delayed(const Duration(seconds: 3), () {
       if (mounted) {
-        Navigator.pushReplacementNamed(context, '/instrucciones');
+        Navigator.pushReplacementNamed(context, '/transicion');
       }
     });
   }

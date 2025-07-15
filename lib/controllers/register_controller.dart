@@ -1,11 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart'; // ✅ Firebase Auth
+import 'package:cloud_firestore/cloud_firestore.dart'; // ✅ Firestore
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'flashcards_controller.dart';
 
 class RegisterController extends ChangeNotifier {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passController = TextEditingController();
-  
+
   bool _obscurePassword = true;
   bool _isLoading = false;
   String? _errorMessage;
@@ -36,14 +38,12 @@ class RegisterController extends ChangeNotifier {
       return false;
     }
 
-    // Validación básica de email
     if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email)) {
       _errorMessage = 'Por favor ingresa un email válido';
       notifyListeners();
       return false;
     }
 
-    // Validación de contraseña (mínimo 6 caracteres)
     if (pass.length < 6) {
       _errorMessage = 'La contraseña debe tener al menos 6 caracteres';
       notifyListeners();
@@ -53,31 +53,57 @@ class RegisterController extends ChangeNotifier {
     return true;
   }
 
-  Future<bool> register() async {
-    if (!_validateFields()) {
-      return false;
-    }
+  Future<bool> register({FlashcardsController? flashcardsController}) async {
+    if (!_validateFields()) return false;
 
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
 
-    try {
-      final name = nameController.text.trim();
-      final email = emailController.text.trim();
-      final pass = passController.text.trim();
+    final name = nameController.text.trim();
+    final email = emailController.text.trim();
+    final pass = passController.text.trim();
 
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('user_name', name);
-      await prefs.setString('user_email', email);
-      await prefs.setString('user_pass', pass);
+    try {
+      // ✅ Crear usuario en Firebase Authentication
+      UserCredential userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: pass);
+
+      // ✅ Obtener UID del nuevo usuario
+      final uid = userCredential.user!.uid;
+
+      // ✅ Crear documento del usuario en Firestore
+      await FirebaseFirestore.instance.collection('usuarios').doc(uid).set({
+        'uid': uid,
+        'nombre': name,
+        'email': email,
+        'progreso': {}, // espacio reservado para guardar avance
+        'creado': FieldValue.serverTimestamp(),
+      });
+
+      // Limpiar progreso local del usuario anterior
+      await FlashcardsController.limpiarProgresoLocal();
+
+      // Cargar progreso desde Firestore si se pasa el controlador
+      if (flashcardsController != null) {
+        await flashcardsController.cargarProgresoDesdeFirestore();
+      }
 
       _isLoading = false;
       notifyListeners();
       return true;
-    } catch (e) {
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'email-already-in-use') {
+        _errorMessage = 'Este correo ya está registrado';
+      } else {
+        _errorMessage = 'Error: ${e.message}';
+      }
       _isLoading = false;
-      _errorMessage = 'Error al registrar usuario: $e';
+      notifyListeners();
+      return false;
+    } catch (e) {
+      _errorMessage = 'Error inesperado: $e';
+      _isLoading = false;
       notifyListeners();
       return false;
     }
@@ -98,4 +124,4 @@ class RegisterController extends ChangeNotifier {
     passController.dispose();
     super.dispose();
   }
-} 
+}
