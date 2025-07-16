@@ -42,73 +42,25 @@ class _CargandoViewState extends State<CargandoView> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Contenedor claymorphic para el ícono
-                Container(
-                  padding: const EdgeInsets.all(30),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.white,
-                        offset: Offset(-8, -8),
-                        blurRadius: 16,
-                      ),
-                      BoxShadow(
-                        color: Color(0xFFDADADA),
-                        offset: Offset(8, 8),
-                        blurRadius: 16,
-                      ),
-                    ],
-                  ),
-                  child: const Icon(
-                    Icons.bug_report,
-                    size: 100,
+                // Texto tierno encima de la imagen
+                const Text(
+                  '¡Soy un monstruo grrw!',
+                  style: TextStyle(
+                    fontSize: 28,
                     color: Color(0xFF0A15E0),
-                  ),
-                ),
-
-                const SizedBox(height: 30),
-
-                // Texto monstruo
-                Text(
-                  _controller.mensaje,
-                  style: const TextStyle(
-                    fontSize: 20,
-                    color: Color(0xFFFF7232),
                     fontWeight: FontWeight.bold,
                   ),
+                  textAlign: TextAlign.center,
                 ),
-
-                const SizedBox(height: 30),
-
-                // Circular progress claymorphic (dentro de un contenedor con sombra)
-                Container(
-                  width: 80,
-                  height: 80,
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.white,
-                        offset: Offset(-6, -6),
-                        blurRadius: 10,
-                      ),
-                      BoxShadow(
-                        color: Color(0xFFDADADA),
-                        offset: Offset(6, 6),
-                        blurRadius: 10,
-                      ),
-                    ],
-                  ),
-                  child: const CircularProgressIndicator(
-                    strokeWidth: 4,
-                    color: Color(0xFFFF7232),
-                  ),
+                const SizedBox(height: 24),
+                // Imagen del monstruo
+                Image.asset(
+                  'assets/my_monster.png',
+                  width: 360,
+                  height: 360,
+                  fit: BoxFit.contain,
                 ),
-
+                const SizedBox(height: 40),
                 // Mostrar tiempo restante si es mayor a 0
                 if (_controller.tiempoRestante > 0) ...[
                   const SizedBox(height: 20),

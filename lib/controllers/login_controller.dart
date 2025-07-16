@@ -61,8 +61,6 @@ class LoginController extends ChangeNotifier {
         password: pass,
       );
 
-      // Limpiar progreso local del usuario anterior
-      await FlashcardsController.limpiarProgresoLocal();
 
       // Cargar progreso desde Firestore si se pasa el controlador
       if (flashcardsController != null) {

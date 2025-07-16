@@ -81,8 +81,6 @@ class RegisterController extends ChangeNotifier {
         'creado': FieldValue.serverTimestamp(),
       });
 
-      // Limpiar progreso local del usuario anterior
-      await FlashcardsController.limpiarProgresoLocal();
 
       // Cargar progreso desde Firestore si se pasa el controlador
       if (flashcardsController != null) {

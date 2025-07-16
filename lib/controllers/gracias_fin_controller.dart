@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'flashcards_controller.dart';
 
 class GraciasFinController extends ChangeNotifier {
   bool _isLoading = false;
@@ -30,14 +29,9 @@ class GraciasFinController extends ChangeNotifier {
       // Cerrar sesión en Firebase
       await FirebaseAuth.instance.signOut();
 
-      // Limpiar progreso local
-      await FlashcardsController.limpiarProgresoLocal();
 
-      final prefs = await SharedPreferences.getInstance();
-      
-      // Borra solo los datos de login
-      await prefs.remove('user_email');
-      await prefs.remove('user_pass');
+      // Borra solo los datos de login si es necesario
+      // ...existing code...
 
       setLoading(false);
       return true;
@@ -67,31 +61,41 @@ class GraciasFinController extends ChangeNotifier {
     }
   }
 
-  // Verificar si hay progreso guardado
+
+  // Verificar si hay progreso guardado en Firebase
   Future<bool> tieneProgresoGuardado() async {
     try {
-      final prefs = await SharedPreferences.getInstance();
-      final indiceGuardado = prefs.getInt('indice_guardado');
-      final cantidadGuardada = prefs.getInt('cantidad_guardada');
-      
-      return indiceGuardado != null && cantidadGuardada != null;
+      final uid = FirebaseAuth.instance.currentUser?.uid;
+      if (uid == null) return false;
+      final doc = await FirebaseFirestore.instance.collection('usuarios').doc(uid).get();
+      if (doc.exists) {
+        final data = doc.data();
+        if (data != null && data['progreso'] != null && data['progreso']['indice'] != null) {
+          return true;
+        }
+      }
+      return false;
     } catch (e) {
       return false;
     }
   }
 
-  // Obtener información del progreso guardado
+
+  // Obtener información del progreso guardado desde Firebase
   Future<Map<String, int>?> obtenerProgresoGuardado() async {
     try {
-      final prefs = await SharedPreferences.getInstance();
-      final indiceGuardado = prefs.getInt('indice_guardado');
-      final cantidadGuardada = prefs.getInt('cantidad_guardada');
-      
-      if (indiceGuardado != null && cantidadGuardada != null) {
-        return {
-          'indice': indiceGuardado,
-          'cantidad': cantidadGuardada,
-        };
+      final uid = FirebaseAuth.instance.currentUser?.uid;
+      if (uid == null) return null;
+      final doc = await FirebaseFirestore.instance.collection('usuarios').doc(uid).get();
+      if (doc.exists) {
+        final data = doc.data();
+        if (data != null && data['progreso'] != null) {
+          final progreso = data['progreso'];
+          return {
+            'indice': progreso['indice'] ?? 0,
+            'cantidad': progreso['cantidad'] ?? 10,
+          };
+        }
       }
       return null;
     } catch (e) {

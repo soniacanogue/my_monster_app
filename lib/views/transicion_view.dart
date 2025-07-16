@@ -67,6 +67,23 @@ class _TransicionViewState extends State<TransicionView> {
     return ListenableBuilder(
       listenable: _controller,
       builder: (context, child) {
+        // Mostrar indicador de carga mientras se detecta el progreso
+        if (_controller.isLoading) {
+          return Scaffold(
+            backgroundColor: Colors.white,
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  CircularProgressIndicator(),
+                  SizedBox(height: 24),
+                  Text('Cargando...', style: TextStyle(fontSize: 18)),
+                ],
+              ),
+            ),
+          );
+        }
+        // Cuando ya se detectó el progreso, mostrar la UI principal
         return Scaffold(
           backgroundColor: Colors.white,
           body: Center(
