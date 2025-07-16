@@ -12,6 +12,7 @@ import 'views/selector_view.dart'; // Importa la vista del selector
 import 'views/gracias_fin_view.dart'; // Importa la vista de agradecimiento al finalizar
 import 'views/instrucciones_view.dart'; // Importa la vista de instrucciones
 import 'views/transicion_view.dart'; // Importa la vista de transición
+import 'views/logout_view.dart'; // Importa la vista de logout
 
 
 void main() async {
@@ -56,12 +57,13 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const LoginView(),
-        '/register': (context) => const RegisterView(), // ✅ Ruta nueva
+        '/register': (context) => const RegisterView(),
         '/cargando': (context) => const CargandoView(),
-        '/transicion': (context) => const TransicionView(), // Ruta para la vista de transición
-        '/selector': (context) => const SelectorView(), // Ruta para el selector
-        '/gracias': (context) => const GraciasFinView(),  // Ruta para la vista de agradecimiento al finalizar
-        '/instrucciones': (context) => const InstruccionesView(), // Ruta para la vista de instrucciones
+        '/transicion': (context) => const TransicionView(),
+        '/selector': (context) => const SelectorView(),
+        '/gracias': (context) => const GraciasFinView(),
+        '/instrucciones': (context) => const InstruccionesView(),
+        '/logout': (context) => const LogoutView(), // Nueva ruta para logout
       },
     );
   }

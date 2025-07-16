@@ -69,6 +69,7 @@ flutter:
   assets:
     - assets/flashcards.json
     - assets/my_monster.png
+    - assets/despedida_luz_edificio_bye_ventana.png
   # To add assets to your application, add an assets section, like this:
   # assets:
 

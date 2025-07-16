@@ -27,9 +27,8 @@ class _GraciasFinViewState extends State<GraciasFinView> {
 
   Future<void> _handleCerrarSesion() async {
     final success = await _controller.cerrarSesion();
-    
     if (success && mounted) {
-      Navigator.pushReplacementNamed(context, '/');
+      Navigator.pushReplacementNamed(context, '/logout');
     } else if (mounted && _controller.errorMessage != null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(_controller.errorMessage!)),
